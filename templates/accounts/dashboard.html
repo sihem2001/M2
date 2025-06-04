@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .dashboard-container {
+            padding: 30px 0;
+        }
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .preferences-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .user-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: white;
+        }
+        .welcome-text h2 {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .welcome-text p {
+            color: #666;
+            font-size: 16px;
+        }
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .preference-item:last-child {
+            margin-bottom: 0;
+        }
+        .preference-label {
+            font-weight: 600;
+            color: #495057;
+            display: flex;
+            align-items: center;
+        }
+        .preference-label i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+        .preference-value {
+            color: #333;
+            font-weight: 500;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid #e9ecef;
+        }
+        .btn-edit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        .btn-edit i {
+            margin-right: 8px;
+        }
+        .btn-logout {
+            background: #dc3545;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .btn-logout:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 53, 69, 0.3);
+            color: white;
+        }
+        .btn-logout i {
+            margin-right: 8px;
+        }
+        .section-title {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #667eea;
+        }
+        .actions-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e9ecef;
+        }
+        .alert {
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container dashboard-container">
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="welcome-text">
+                    <h2>Bienvenue, {{ user.prenom }} {{ user.nom }} !</h2>
+                    <p>Voici votre tableau de bord personnel</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="info-item">
+                        <strong><i class="fas fa-envelope"></i> Email:</strong> {{ user.email }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="info-item">
+                        <strong><i class="fas fa-id-card"></i> N° National:</strong> {{ user.numero_national }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preferences Card -->
+        <div class="preferences-card">
+            <h3 class="section-title">
+                <i class="fas fa-cog"></i>
+                Vos Préférences
+            </h3>
+
+            <div class="preference-item">
+                <div class="preference-label">
+                    <i class="fas fa-book"></i>
+                    Domaine d'étude
+                </div>
+                <div class="preference-value">
+                    {{ preferences.get_domaine_etude_display }}
+                </div>
+            </div>
+
+            <div class="preference-item">
+                <div class="preference-label">
+                    <i class="fas fa-graduation-cap"></i>
+                    Type de diplôme
+                </div>
+                <div class="preference-value">
+                    {{ preferences.get_type_diplome_display }}
+                </div>
+            </div>
+
+            <div class="preference-item">
+                <div class="preference-label">
+                    <i class="fas fa-briefcase"></i>
+                    Intérêt professionnel
+                </div>
+                <div class="preference-value">
+                    {{ preferences.get_interet_display }}
+                </div>
+            </div>
+
+            <div class="actions-section">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="{% url 'preferences_edit' %}" class="btn-edit">
+                        <i class="fas fa-edit"></i>
+                        Modifier mes préférences
+                    </a>
+                    <a href="{% url 'logout' %}" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Se déconnecter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
